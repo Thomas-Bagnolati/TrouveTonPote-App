@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TrouveTonPote</string>
+    <string name="btn_connexion">Connexion</string>
+    <string name="btn_signup">s\'enregistrer</string>
+    <string name="hint_email">mail</string>
+    <string name="Hint_password">mot de passe</string>
+    <string name="descripton_img_login">image friendly trouve ton pote</string>
 </resources>
