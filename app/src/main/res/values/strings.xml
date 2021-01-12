@@ -5,4 +5,8 @@
     <string name="hint_email">mail</string>
     <string name="Hint_password">mot de passe</string>
     <string name="descripton_img_login">image friendly trouve ton pote</string>
+    <string name="title_register">S\'enregistrer</string>
+    <string name="btn_register">S\'enregistrer</string>
+    <string name="resister_name">nom</string>
+    <string name="confirm_pwd">confirmer mot de passe</string>
 </resources>

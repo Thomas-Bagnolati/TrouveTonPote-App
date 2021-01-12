@@ -16,7 +16,7 @@
             android:layout_height="200dp"
             android:contentDescription="@string/descripton_img_login"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_friend1test" />
+            android:src="@drawable/img_friend1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,6 +87,7 @@
                     tools:ignore="RelativeOverlap" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:onClick="onClickRegister"
                     android:id="@+id/btn_show_signup_fragment"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
