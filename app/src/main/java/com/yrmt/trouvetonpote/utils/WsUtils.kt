@@ -1,7 +1,6 @@
 package com.yrmt.trouvetonpote.utils
 
 
-import android.content.ClipData
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -21,7 +20,7 @@ class WsUtils {
         // REQUEST AUTHENTIFICATION
         ///////////////////////////////////////////////////////////////////////////
 
-        fun login(mail: String, pwd: String): ResponseCodeBean<UserBean> {
+        fun login(mail: String, pwd: String): UserBean {
 
             val user = UserBean(mail, pwd)
             val json = gson.toJson(user)
@@ -33,7 +32,10 @@ class WsUtils {
 
             Log.d(TAG, "login -> responseCode = $responseCode")
 
-            return responseCode
+            val userRes = responseCode.data
+            if (userRes != null) return responseCode.data
+            else throw Exception()
+
         }
 
     }

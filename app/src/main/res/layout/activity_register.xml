@@ -116,7 +116,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:contentDescription="@string/descripton_img_login"
+            android:contentDescription="@string/description_img_login"
             android:scaleType="centerCrop"
             android:src="@drawable/img_friend2"
             app:layout_constraintBottom_toBottomOf="parent" />
