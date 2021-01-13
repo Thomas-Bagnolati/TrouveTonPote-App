@@ -12,7 +12,11 @@ data class UserBean(
         val lat: Double?,
         val lng: Double?
 ) {
-    constructor(mail: String) : this(null, null, null, mail, null, null, null, null, null, null)
+    constructor(id_session: Long) :
+            this(null, null, null, null, id_session, null, null, null, null, null)
+
+    constructor(mail: String, pwd : String) :
+            this(null, null, pwd, mail, null, null, null, null, null, null)
 }
 
 data class PasswordUpdateBean(
@@ -21,7 +25,8 @@ data class PasswordUpdateBean(
         val new_pwd: String
 )
 
-data class ResponseCodeBean(
+data class ResponseCodeBean<T> (
         val code: Int,
-        val message: String
+        val message: String?,
+        val data : T?
 )
