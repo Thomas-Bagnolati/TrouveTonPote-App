@@ -9,7 +9,7 @@ class AuthService {
     companion object {
 
         //Function to verify valid username
-        fun isUsernameValide(etUsername: EditText?): Boolean {
+        fun isNameValide(etUsername: EditText?): Boolean {
 
             val strUsername = etUsername?.text.toString().trim()
 
@@ -32,6 +32,14 @@ class AuthService {
             return isValidPasswordFormat(strPassword)
         }
 
+        fun isSamePassword(etPassword: EditText?, etConfirmPassword: EditText?) : Boolean {
+
+            val strPassword = etPassword?.text.toString()
+            val strConfirmPassword = etConfirmPassword?.text.toString()
+
+            return strPassword == strConfirmPassword
+        }
+
         // Fun regex Password
         private fun isValidPasswordFormat(password: String): Boolean {
             val passwordREGEX = Pattern.compile(
@@ -40,7 +48,7 @@ class AuthService {
                             "(?=.*[a-z])" +         //at least 1 lower case letter
                             "(?=.*[A-Z])" +         //at least 1 upper case letter
                             "(?=.*[a-zA-Z])" +      //any letter
-                            "(?=.*[@#$%^&+=!?])" +    //at least 1 special character
+                            "(?=.*[@#$%^&+=!?/])" +    //at least 1 special character
                             "(?=\\S+$)" +           //no white spaces
                             ".{8,}" +               //at least 8 characters
                             "$"

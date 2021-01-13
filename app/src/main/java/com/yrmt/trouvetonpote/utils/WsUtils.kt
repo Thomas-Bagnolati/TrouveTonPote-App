@@ -26,7 +26,6 @@ class WsUtils {
             val json = gson.toJson(user)
 
             val res = sendPostOkHttpRequest(TTPConst.URL_API_LOGIN, json)
-
             val itemType = object : TypeToken<ResponseCodeBean<UserBean>>() {}.type
             val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
 
@@ -34,7 +33,22 @@ class WsUtils {
 
             val userRes = responseCode.data
             if (userRes != null) return responseCode.data
-            else throw Exception()
+            else throw Exception(responseCode.message)
+
+        }
+
+        fun register(user: UserBean): ResponseCodeBean<UserBean> {
+
+            val json = gson.toJson(user)
+
+            val res = sendPostOkHttpRequest(TTPConst.URL_API_REGISTER, json)
+            val itemType = object : TypeToken<ResponseCodeBean<UserBean>>() {}.type
+            val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
+
+            Log.d(TAG, "register -> responseCode = $responseCode")
+
+            if (responseCode.code == 200) return responseCode
+            else throw Exception(responseCode.message)
 
         }
 

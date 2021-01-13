@@ -90,7 +90,7 @@
                     tools:ignore="RelativeOverlap" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:onClick="onClickRegister"
+                    android:onClick="onClickActivityRegister"
                     android:id="@+id/btn_show_signup_fragment"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"

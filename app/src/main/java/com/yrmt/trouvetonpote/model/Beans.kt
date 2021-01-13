@@ -15,8 +15,11 @@ data class UserBean(
     constructor(id_session: Long) :
             this(null, null, null, null, id_session, null, null, null, null, null)
 
-    constructor(mail: String, pwd : String) :
+    constructor(mail: String, pwd: String) :
             this(null, null, pwd, mail, null, null, null, null, null, null)
+
+    constructor(mail: String, name: String, pwd: String) :
+            this(null, name, pwd, mail, null, null, null, null, null, null)
 }
 
 data class PasswordUpdateBean(
