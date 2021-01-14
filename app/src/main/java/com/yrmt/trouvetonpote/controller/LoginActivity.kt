@@ -1,9 +1,11 @@
 package com.yrmt.trouvetonpote.controller
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -17,7 +19,11 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
 class LoginActivity : AppCompatActivity() {
+
+    // Data
+    private val requestCodeForResult = 50
 
     // Graphics
     private lateinit var etEmailLogin: TextInputEditText
@@ -41,9 +47,11 @@ class LoginActivity : AppCompatActivity() {
     ///////////////////////////////////////////////////////////////////////////
     // ONCLICK
     ///////////////////////////////////////////////////////////////////////////
-    fun onClickRegister(view: View) {
-        startActivity(Intent(this, RegisterActivity::class.java))
+    fun onClickActivityRegister(view: View) {
+        val intentRegister = Intent(this, RegisterActivity::class.java)
+        startActivityForResult(intentRegister, requestCodeForResult)
     }
+
 
     fun onClickLogin(view: View) {
 
@@ -52,28 +60,47 @@ class LoginActivity : AppCompatActivity() {
             CoroutineScope(IO).launch {
                 try {
                     val res = WsUtils.login(etEmailLogin.text.toString(), etPasswordLogin.text.toString())
-                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                    val homeIntent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    homeIntent.putExtra("id_session", res.id_session)
+                    startActivity(homeIntent)
                     finish()
                 } catch (e: Exception) {
-                    updateUI()
+                    e.printStackTrace()
+                    updateUI(e.message ?: getString(R.string.error_auth))
                 }
             }
         }
     }
 
-    private suspend fun updateUI() {
+    ///////////////////////////////////////////////////////////////////////////
+    // OTHERs
+    ///////////////////////////////////////////////////////////////////////////
+
+    private suspend fun updateUI(errorMsg: String) {
         withContext(Main) {
-            Snackbar.make(rootView, getString(R.string.error_auth), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(rootView, errorMsg, Snackbar.LENGTH_LONG).show()
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // REQUESTS
-    ///////////////////////////////////////////////////////////////////////////
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == requestCodeForResult && resultCode == Activity.RESULT_OK) {
+            // Take mail and pwd
+            val mail = data?.getStringExtra("mail") ?: ""
+            val pwd = data?.getStringExtra("pwd") ?: ""
+            // Fill on InputText
+            etEmailLogin.append(mail)
+            etPasswordLogin.append(pwd)
 
+            Toast.makeText(this, getString(R.string.complete_registration), Toast.LENGTH_SHORT).show()
+
+            etEmailLogin.clearFocus()
+        }
+
+    }
 
     ///////////////////////////////////////////////////////////////////////////
-    // OTHERS
+    // VERIFICATIONS
     ///////////////////////////////////////////////////////////////////////////
 
     // Verify email & Password

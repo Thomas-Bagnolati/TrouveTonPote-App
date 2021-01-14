@@ -49,11 +49,12 @@
                 app:startIconDrawable="@drawable/ic_mail">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_email_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1" />
+                        android:id="@+id/et_email_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:text="mail@monMail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -69,10 +70,11 @@
                 app:startIconDrawable="@drawable/ic_key">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_password_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                        android:id="@+id/et_password_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:text="Azert333!" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RelativeLayout
@@ -90,7 +92,7 @@
                     tools:ignore="RelativeOverlap" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:onClick="onClickRegister"
+                    android:onClick="onClickActivityRegister"
                     android:id="@+id/btn_show_signup_fragment"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"

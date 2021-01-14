@@ -10,9 +10,15 @@
     <string name="resister_name">nom</string>
     <string name="confirm_pwd">confirmer mot de passe</string>
 
+    <!--    Complete-->
+    <string name="complete_registration">Vous avez bien été enregistré</string>
+
+
     <!--    Errors-->
-    <string name="error_mail">Veuillez entrez un email valide</string>
+    <string name="error_mail">Veuillez entrer un email valide</string>
+    <string name="error_name">Veuillez entrer un nom valide</string>
     <string name="error_password">Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial</string>
+    <string name="error_same_password">Les mots de passes ne sont pas identiques</string>
     <string name="error_auth">Erreur d\'authentification</string>
 
     <!--    Titles-->
@@ -20,5 +26,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
