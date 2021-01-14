@@ -8,7 +8,7 @@ data class UserBean(
         val id_session: Long?,
         val last_con: Long?,
         var status_mess: String?,
-        var isShared: Boolean?,
+        var isShared: Int?,
         var lat: Double?,
         var lng: Double?
 ) {
