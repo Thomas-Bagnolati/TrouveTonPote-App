@@ -59,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
         val imm: InputMethodManager = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
 
-        // Verify
+        // Verify inputTexts
         val isValidForm = verifyErrorTextInput(
                 etEmailRegister, etNameRegister, etPasswordRegister, etPasswordConfirmRegister,
                 tiEmailRegister, tiNameRegister, tiPasswordRegister, tiPasswordConfirmRegister)
@@ -72,7 +72,8 @@ class RegisterActivity : AppCompatActivity() {
                             etNameRegister.text.toString(),
                             etPasswordRegister.text.toString())
 
-                    val res = WsUtils.register(user)
+                    // Register to DB
+                    WsUtils.register(user)
 
                     val resultIntent = Intent()
                     resultIntent.putExtra("mail", etEmailRegister.text.toString())

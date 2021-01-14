@@ -13,7 +13,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         session()
-
     }
 
     private fun session() {
@@ -21,7 +20,5 @@ class HomeActivity : AppCompatActivity() {
             val idSession = intent.getLongExtra("id_session",-1)
             user = UserBean(idSession)
         }
-
-
     }
 }

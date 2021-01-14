@@ -7,23 +7,21 @@ import com.google.gson.reflect.TypeToken
 import com.yrmt.trouvetonpote.model.ResponseCodeBean
 import com.yrmt.trouvetonpote.model.UserBean
 
-
 class WsUtils {
 
     companion object {
 
         private const val TAG = "WSUtils"
         private val gson = Gson()
-        var json = ""
+        private var json = ""
 
         ///////////////////////////////////////////////////////////////////////////
         // REQUEST AUTHENTIFICATION
         ///////////////////////////////////////////////////////////////////////////
 
         fun login(mail: String, pwd: String): UserBean {
-
             val user = UserBean(mail, pwd)
-            val json = gson.toJson(user)
+            json = gson.toJson(user)
 
             val res = sendPostOkHttpRequest(TTPConst.URL_API_LOGIN, json)
             val itemType = object : TypeToken<ResponseCodeBean<UserBean>>() {}.type
@@ -37,9 +35,8 @@ class WsUtils {
 
         }
 
-        fun register(user: UserBean): ResponseCodeBean<UserBean> {
-
-            val json = gson.toJson(user)
+        fun register(user: UserBean) {
+            json = gson.toJson(user)
 
             val res = sendPostOkHttpRequest(TTPConst.URL_API_REGISTER, json)
             val itemType = object : TypeToken<ResponseCodeBean<UserBean>>() {}.type
@@ -47,9 +44,7 @@ class WsUtils {
 
             Log.d(TAG, "register -> responseCode = $responseCode")
 
-            if (responseCode.code == 200) return responseCode
-            else throw Exception(responseCode.message)
-
+            if (responseCode.code != 200) throw Exception(responseCode.message)
         }
 
     }

@@ -91,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
             // Fill on InputText
             etEmailLogin.append(mail)
             etPasswordLogin.append(pwd)
+
             Toast.makeText(this, getString(R.string.complete_registration), Toast.LENGTH_SHORT).show()
 
             etEmailLogin.clearFocus()

@@ -2,15 +2,15 @@ package com.yrmt.trouvetonpote.model
 
 data class UserBean(
         val id: Long?,
-        val name: String?,
-        val pwd: String?,
+        var name: String?,
+        var pwd: String?,
         val mail: String?,
         val id_session: Long?,
         val last_con: Long?,
-        val status_mess: String?,
-        val isShared: Boolean?,
-        val lat: Double?,
-        val lng: Double?
+        var status_mess: String?,
+        var isShared: Boolean?,
+        var lat: Double?,
+        var lng: Double?
 ) {
     constructor(id_session: Long) :
             this(null, null, null, null, id_session, null, null, null, null, null)
