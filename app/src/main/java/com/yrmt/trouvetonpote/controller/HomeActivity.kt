@@ -34,15 +34,10 @@ class HomeActivity : AppCompatActivity() {
 //        tv_home_data = findViewById(R.id.tv_home_data)
         navbarBottom = findViewById(R.id.navbar_bottom)
 
-
-
         // Fragments
         profilFragment = ProfilFragment()
         mapFragment = MapFragment()
         chatFragment = ChatFragment()
-
-        // Start Fragment
-        makeNavCurrentFragment(mapFragment)
 
         // NavBar Navigation
         navbarBottom.setOnNavigationItemSelectedListener {
@@ -54,6 +49,9 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
+        // Start Fragment
+        navbarBottom.selectedItemId = R.id.nav_map
+
         session()
     }
 
@@ -64,7 +62,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-//
 //    fun onClickGetUsersInfo(view: View) {
 //        CoroutineScope(IO).launch {
 //            try {
