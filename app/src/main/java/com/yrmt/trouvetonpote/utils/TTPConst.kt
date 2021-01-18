@@ -4,7 +4,7 @@ class TTPConst {
 
     companion object {
 
-        private const val URL_ROOT_API = "http://90.76.227.136:8888"
+        private const val URL_ROOT_API = "http://90.2.41.205:8888"
 
         // Url User
         const val URL_API_LOGIN = "$URL_ROOT_API/login"
