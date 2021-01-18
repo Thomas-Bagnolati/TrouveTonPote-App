@@ -37,8 +37,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         // Graphics
-        etEmailLogin = findViewById(R.id.et_email_login)
-        tiEmailLogin = findViewById(R.id.ti_email_login)
+        etEmailLogin = findViewById(R.id.et_status_msg)
+        tiEmailLogin = findViewById(R.id.ti_status_msg)
         etPasswordLogin = findViewById(R.id.et_password_login)
         tiPasswordLogin = findViewById(R.id.ti_password_login)
         rootView = findViewById(R.id.root_login)
