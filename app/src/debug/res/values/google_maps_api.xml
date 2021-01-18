@@ -4,15 +4,15 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=C8:7A:19:E5:4F:0D:A8:96:45:6B:CE:15:22:8C:A8:8A:C2:42:D8:3F%3Bcom.yrmt.trouvetonpote.controller
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=2F:8F:A3:4E:FA:AE:1A:F6:81:27:91:9A:0D:40:EC:B2:CF:03:96:2B%3Bcom.yrmt.trouvetonpote
 
     You can also add your credentials to an existing key, using these values:
 
     Package name:
-    com.yrmt.trouvetonpote.controller
+    com.yrmt.trouvetonpote
 
     SHA-1 certificate fingerprint:
-    C8:7A:19:E5:4F:0D:A8:96:45:6B:CE:15:22:8C:A8:8A:C2:42:D8:3F
+    2F:8F:A3:4E:FA:AE:1A:F6:81:27:91:9A:0D:40:EC:B2:CF:03:96:2B
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key
@@ -20,5 +20,5 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY_HERE</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyB0USK9qqsXRq2S13GsDR91LCclAXdvNcM</string>
 </resources>

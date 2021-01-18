@@ -1,24 +1,16 @@
 package com.yrmt.trouvetonpote.controller
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yrmt.trouvetonpote.MapsFragment
 import com.yrmt.trouvetonpote.R
 import com.yrmt.trouvetonpote.model.UserBean
-import com.yrmt.trouvetonpote.utils.WsUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 lateinit var user: UserBean
 lateinit var profilFragment: ProfilFragment
-lateinit var mapFragment: MapFragment
+lateinit var mapFragment: MapsFragment
 lateinit var chatFragment: ChatFragment
 
 
@@ -38,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Fragments
         profilFragment = ProfilFragment()
-        mapFragment = MapFragment()
+        mapFragment = MapsFragment()
         chatFragment = ChatFragment()
 
         // Start Fragment
