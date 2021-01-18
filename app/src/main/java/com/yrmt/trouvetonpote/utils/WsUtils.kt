@@ -17,7 +17,7 @@ class WsUtils {
         private val itemType = object : TypeToken<ResponseCodeBean<UserBean>>() {}.type
 
         ///////////////////////////////////////////////////////////////////////////
-        // REQUEST AUTHENTIFICATION
+        // REQUESTS
         ///////////////////////////////////////////////////////////////////////////
 
         fun login(mail: String, pwd: String): UserBean {
@@ -46,11 +46,23 @@ class WsUtils {
             if (responseCode.code != 200) throw Exception(responseCode.message)
         }
 
+        fun getUserProfile(user: UserBean):UserBean{
+            json = gson.toJson(user)
+
+            val res = sendPostOkHttpRequest(TTPConst.URL_API_GET_USER_PROFILE, json)
+            val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
+
+            Log.d(TAG, "getUserProfile -> responseCode = $responseCode")
+
+            val profileRes = responseCode.data
+            if (profileRes != null) return responseCode.data
+            else throw Exception(responseCode.message)
+        }
 
         fun getUsersInfo(user: UserBean): List<UserBean>{
             json = gson.toJson(user)
 
-            val res = sendPostOkHttpRequest(TTPConst.URL_API_GETUSERSINFO, json)
+            val res = sendPostOkHttpRequest(TTPConst.URL_API_GET_USERS_INFO, json)
             val itemType = object : TypeToken<ResponseCodeBean<List<UserBean>>>() {}.type
             val responseCode = gson.fromJson<ResponseCodeBean<List<UserBean>>>(res, itemType)
 
