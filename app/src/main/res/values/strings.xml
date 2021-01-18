@@ -30,5 +30,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="status">Status</string>
     <string name="helper_text_status">Ce message sera partager aux autres utilisateurs</string>
+    <string name="image_profile_description">Image profile</string>
 
 </resources>

@@ -6,10 +6,10 @@
         android:title="profil" />
     <item
         android:id="@+id/nav_map"
-        android:icon="@drawable/ic_profil"
+        android:icon="@drawable/ic_location"
         android:title="map" />
     <item
         android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_profil"
+        android:icon="@drawable/ic_message"
         android:title="chat" />
 </menu>
