@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -31,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var tiPasswordRegister: TextInputLayout
     private lateinit var etPasswordConfirmRegister: TextInputEditText
     private lateinit var tiPasswordConfirmRegister: TextInputLayout
+    private lateinit var pbRegister : ProgressBar
     private lateinit var rootView: View
 
 
@@ -47,6 +49,7 @@ class RegisterActivity : AppCompatActivity() {
         tiPasswordRegister = findViewById(R.id.ti_password_register)
         etPasswordConfirmRegister = findViewById(R.id.et_password_confirm_register)
         tiPasswordConfirmRegister = findViewById(R.id.ti_password_confirm_register)
+        pbRegister = findViewById(R.id.pb_register)
         rootView = findViewById(R.id.root_register)
 
     }
@@ -65,6 +68,8 @@ class RegisterActivity : AppCompatActivity() {
                 tiEmailRegister, tiNameRegister, tiPasswordRegister, tiPasswordConfirmRegister)
 
         if (isValidForm) {
+            pbRegister.visibility = View.VISIBLE
+            view.isEnabled = false
             CoroutineScope(IO).launch {
                 try {
                     val user = UserBean(
@@ -85,6 +90,9 @@ class RegisterActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     updateUI(e.message ?: getString(R.string.error_auth))
+                } finally {
+                    pbRegister.visibility = View.INVISIBLE
+                    view.isEnabled = true
                 }
             }
         }
