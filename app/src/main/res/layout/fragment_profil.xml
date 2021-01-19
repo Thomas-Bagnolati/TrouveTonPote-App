@@ -92,11 +92,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_confirm_status"
+            android:id="@+id/btn_share_infos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Partage ton status"
+            android:text="Partage tes infos"
             app:layout_constraintEnd_toEndOf="@+id/ti_status_msg"
             app:layout_constraintTop_toBottomOf="@+id/ti_status_msg" />
 
@@ -108,7 +108,12 @@
             android:layout_marginTop="24dp"
             android:text="modifier le mot de passe"
             app:layout_constraintEnd_toEndOf="@+id/ti_status_msg"
-            app:layout_constraintTop_toBottomOf="@+id/btn_confirm_status" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_share_infos" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintTop_toBottomOf="@+id/btn_edit_pwd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -23,7 +23,7 @@ class ProfilFragment : Fragment() {
 
     private lateinit var btnEditPwd: Button
     private lateinit var btnEditName: Button
-    private lateinit var btnConfirmStatus: Button
+    private lateinit var btnShareInfos: Button
 
     lateinit var tvName: TextView
     lateinit var imgProfile: ImageView
@@ -35,7 +35,7 @@ class ProfilFragment : Fragment() {
         // Graphics
         btnEditPwd = view.findViewById(R.id.btn_edit_pwd)
         btnEditName = view.findViewById(R.id.btn_edit_name)
-        btnConfirmStatus = view.findViewById(R.id.btn_confirm_status)
+        btnShareInfos = view.findViewById(R.id.btn_share_infos)
         tvName = view.findViewById(R.id.tv_name)
         imgProfile = view.findViewById(R.id.iv_profile)
         etStatus = view.findViewById(R.id.et_status_msg)
@@ -49,7 +49,7 @@ class ProfilFragment : Fragment() {
             showAlertDialogEditName()
         }
         // Onclick Btn ConfirmStatus
-        btnConfirmStatus.setOnClickListener {
+        btnShareInfos.setOnClickListener {
 
             //Oblige a entrer un nom
             if (user.name == null) {
@@ -83,7 +83,8 @@ class ProfilFragment : Fragment() {
             try {
                 val res = WsUtils.getUserProfile(user)
                 user.name = res.name
-                user.status_mess = res.status_mess
+                if (res.status_mess != "null") user.status_mess = res.status_mess
+                else user.status_mess = ""
                 updateUI()
             } catch (e: Exception) {
                 e.printStackTrace()
