@@ -37,7 +37,7 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
     private lateinit var btnShowMe: MaterialButton
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val listUserBean = mutableListOf<UserBean>()
-    private val timer: Timer = Timer()
+    private lateinit var timer: Timer
     private var isZoomed = false
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -78,6 +78,7 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
     //launch timer
     override fun onStart() {
         super.onStart()
+        timer = Timer()
         timer.schedule(0, 15_000) {
             print("")
             getUsersInfo()
