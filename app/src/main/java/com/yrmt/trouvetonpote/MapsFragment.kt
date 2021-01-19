@@ -1,12 +1,13 @@
 package com.yrmt.trouvetonpote
 
 import android.Manifest
+import android.app.Application
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,12 +32,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.security.Security.getProviders
+import java.util.*
+import kotlin.concurrent.schedule
+import kotlin.concurrent.thread
 
 class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
 
-    lateinit var map:GoogleMap
-    lateinit var btnShowMe: MaterialButton
+    private lateinit var map:GoogleMap
+    private lateinit var btnShowMe: MaterialButton
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val listUserBean = mutableListOf<UserBean>()
+    private val timer : Timer = Timer()
+    private var isZoomed = false
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
@@ -43,8 +55,12 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
 
         map.setInfoWindowAdapter(this)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this.requireActivity())
+
         //show me btn callback
         btnShowMe.setOnClickListener {
+            user.isShared = 1
+            sendUserInfo()
             refreshMap()
         }
     }
@@ -56,6 +72,7 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
     ): View? {
         val mapFragmentView = inflater.inflate(R.layout.fragment_maps, container, false)
         btnShowMe = mapFragmentView.findViewById(R.id.btn_show_me)
+
         return mapFragmentView
     }
 
@@ -63,18 +80,21 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-        refreshDataLoop()
     }
 
-    //call data on map launch init every 30 secs
-    fun refreshDataLoop() {
-        val handler = Handler(Looper.getMainLooper())
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                getUsersInfo()
-                handler.postDelayed(this, 15_000)//1 sec delay
-            }
-        }, 0)
+    //launch timer
+    override fun onStart() {
+        super.onStart()
+        timer.schedule(0, 15_000){
+            print("")
+            getUsersInfo()
+        }
+    }
+
+    //close timer
+    override fun onStop() {
+        super.onStop()
+        timer.cancel()
     }
 
     //last permission callback
@@ -85,9 +105,9 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
 
     private fun refreshMap() {
         activity?.runOnUiThread {
+            map.clear()
             if (ContextCompat.checkSelfPermission(requireContext().applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 map.isMyLocationEnabled = true
-                map.clear()
 
                 //var to center camera on all users
                 val latLngBounds = LatLngBounds.Builder()
@@ -96,20 +116,24 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
                 if(!listUserBean.isNullOrEmpty()) {
                     listUserBean.forEach {
                         val position = LatLng(it.lat?:0.0, it.lng?:0.0)
-                        map.addMarker(MarkerOptions().position(position).title(it.name?:"Unknown").icon(
-                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))).tag = it
-                        latLngBounds.include(position)
+                        //add marker only if user has position
+                        if(it.lat != 0.0 || it.lng != 0.0) {
+                            map.addMarker(MarkerOptions().position(position).title(it.name?:"Unknown").icon(
+                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))).tag = it
+                            latLngBounds.include(position)
+                        }
                     }
                 }
-                //check bonds had at least 2 item
-//                if (listUserBean.size > 1) {
-//                    map.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 250))
-//                }
+                // check bonds had at least 2 item
+                if (listUserBean.size > 1 && !isZoomed) {
+                    map.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds.build(), 250))
+                    isZoomed = true
+                }
             }
         }
     }
 
-    fun getUsersInfo() {
+    private fun getUsersInfo() {
         CoroutineScope(IO).launch {
             try {
                 //clean list and call ws method to refill it
@@ -125,6 +149,29 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
         }
     }
 
+        fun sendUserInfo() {
+            CoroutineScope(IO).launch {
+                try {
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                        fusedLocationClient.lastLocation.addOnSuccessListener {
+                            user.lat = it.latitude
+                            user.lng = it.longitude
+                            thread {
+                                WsUtils.sendUserInfo(user)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    withContext(Main) {
+                        Toast.makeText(requireContext(), e.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+    }
+
     override fun getInfoWindow(p0: Marker?): View? {
         return null
     }
@@ -134,11 +181,13 @@ class MapsFragment : Fragment(), GoogleMap.InfoWindowAdapter {
         val tvName = view.findViewById<TextView>(R.id.tv_marker_name)
         val tvMessage = view.findViewById<TextView>(R.id.tv_marker_message)
         val user = p0.tag as UserBean
-        tvMessage.text = user.status_mess?: ""
+        if(user.status_mess.isNullOrBlank()) {
+            tvMessage.text = "Occupé"
+        } else {
+            tvMessage.text = user.status_mess
+        }
         tvName.text = user.name?: "Unknown"
 
         return view
     }
-
-
 }

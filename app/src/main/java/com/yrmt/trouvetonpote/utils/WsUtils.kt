@@ -64,6 +64,7 @@ class WsUtils {
 
         fun sendUserInfo(user: UserBean) {
             json = gson.toJson(user)
+            print(json)
 
             val res = sendPostOkHttpRequest(TTPConst.URL_API_SEND_USER_INFO, json)
             val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
