@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tiEmailLogin: TextInputLayout
     private lateinit var etPasswordLogin: TextInputEditText
     private lateinit var tiPasswordLogin: TextInputLayout
+    private lateinit var pbLogin : ProgressBar
     private lateinit var rootView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
         tiEmailLogin = findViewById(R.id.ti_email_login)
         etPasswordLogin = findViewById(R.id.et_password_login)
         tiPasswordLogin = findViewById(R.id.ti_password_login)
+        pbLogin = findViewById(R.id.pb_login)
         rootView = findViewById(R.id.root_login)
     }
 
@@ -56,7 +59,8 @@ class LoginActivity : AppCompatActivity() {
     fun onClickLogin(view: View) {
 
         if (verifyErrorTextInput(etEmailLogin, etPasswordLogin, tiEmailLogin, tiPasswordLogin)) {
-
+            pbLogin.visibility = View.VISIBLE
+            view.isEnabled = false
             CoroutineScope(IO).launch {
                 try {
                     val res = WsUtils.login(etEmailLogin.text.toString(), etPasswordLogin.text.toString())
@@ -67,6 +71,11 @@ class LoginActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     updateUI(e.message ?: getString(R.string.error_auth))
+                } finally {
+                    launch(Main) {
+                        pbLogin.visibility = View.INVISIBLE
+                        view.isEnabled = true
+                    }
                 }
             }
         }
