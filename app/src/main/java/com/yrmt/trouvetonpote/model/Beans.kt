@@ -20,6 +20,9 @@ data class UserBean(
 
     constructor(mail: String, name: String, pwd: String) :
             this(null, name, pwd, mail, null, null, null, null, null, null)
+
+    constructor(id_session: Long, name: String, status_mess: String?) :
+            this(null, name, null, null, id_session, null, status_mess, null, null, null)
 }
 
 data class PasswordUpdateBean(

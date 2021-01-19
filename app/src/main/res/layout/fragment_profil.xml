@@ -22,7 +22,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_welcome_msg"
             android:layout_width="wrap_content"
@@ -46,7 +45,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_welcome_msg" />
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_edit_name"
@@ -76,6 +74,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:hint="@string/status"
             android:paddingBottom="8dp"
             app:errorTextColor="@color/ttp_error"
@@ -93,14 +92,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_confirm_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Partage ton status"
+            app:layout_constraintEnd_toEndOf="@+id/ti_status_msg"
+            app:layout_constraintTop_toBottomOf="@+id/ti_status_msg" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_edit_pwd"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:text="modifier le mot de passe"
             app:layout_constraintEnd_toEndOf="@+id/ti_status_msg"
-            app:layout_constraintTop_toBottomOf="@+id/ti_status_msg" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_confirm_status" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -46,18 +46,7 @@ class WsUtils {
             if (responseCode.code != 200) throw Exception(responseCode.message)
         }
 
-        fun getUserProfile(user: UserBean):UserBean{
-            json = gson.toJson(user)
 
-            val res = sendPostOkHttpRequest(TTPConst.URL_API_GET_USER_PROFILE, json)
-            val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
-
-            Log.d(TAG, "getUserProfile -> responseCode = $responseCode")
-
-            val profileRes = responseCode.data
-            if (profileRes != null) return responseCode.data
-            else throw Exception(responseCode.message)
-        }
 
         fun getUsersInfo(user: UserBean): List<UserBean>{
             json = gson.toJson(user)
@@ -81,6 +70,36 @@ class WsUtils {
             val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
 
             Log.d(TAG, "sendUserInfo -> responseCode = $responseCode")
+
+            if (responseCode.code != 200) throw Exception(responseCode.message)
+        }
+
+        ///////////////////////////////////////////////////////////////////////////
+        // USER PROFILE
+        ///////////////////////////////////////////////////////////////////////////
+
+        // Return name and status msg. Send IdSession
+        fun getUserProfile(user: UserBean):UserBean{
+            json = gson.toJson(user)
+
+            val res = sendPostOkHttpRequest(TTPConst.URL_API_GET_USER_PROFILE, json)
+            val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
+
+            Log.d(TAG, "getUserProfile -> responseCode = $responseCode")
+
+            val profileRes = responseCode.data
+            if (profileRes != null) return responseCode.data
+            else throw Exception(responseCode.message)
+        }
+
+        // Send to update User with IdSession, name, status_mess.
+        fun setUserProfile(user: UserBean) {
+            json = gson.toJson(user)
+
+            val res = sendPostOkHttpRequest(TTPConst.URL_API_SET_USER_PROFILE, json)
+            val responseCode = gson.fromJson<ResponseCodeBean<UserBean>>(res, itemType)
+
+            Log.d(TAG, "setUserProfile -> responseCode = $responseCode")
 
             if (responseCode.code != 200) throw Exception(responseCode.message)
         }
